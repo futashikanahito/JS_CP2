@@ -11,26 +11,53 @@
 # call main
 # ----- PSUEDOCODE & CODE -----
 #from menu import menu
-import csv
+import csv, os
+from helpers import menu
 
 def view():
     try:
         with open("csvs/movies.csv", "r") as file:
             content = csv.reader(file)
-            headers = next(content)
-            rows = []
             for line in content:
                 print(f"Title: {line[0]}\n Director: {line[1]}\n Genre: {line[2]}\n Rating: {line[3]}\n Length (in minutes): {line[4]}\n Notable Actors: {line[5]}")
     except:
         print("That file was not found.")
-    else:
-        print("code ends")
     
 
 def search():
-    pass
+    inp = input()
+    try:
+        with open("csvs/movies.csv", "r") as file:
+            content = csv.reader(file)
+            for line in content:
+                print(line)
+                for cell in line:
+                    if inp in cell:
+                        print(f"Title: {line[0]}\n Director: {line[1]}\n Genre: {line[2]}\n Rating: {line[3]}\n Length (in minutes): {line[4]}\n Notable Actors: {line[5]}")
+    except:
+        print("That file was not found.")
 
 def main():
-    pass
+    if os.name == 'nt':
+        options = ["View All Movies", "Search / Recommend Movies", "Exit"]
+        while True:
+            choice = menu(options)
+            if choice == 0:
+                view()
+            elif choice == 1:
+                search()
+            else:
+                print("Thank you for using this program!")
+                break
+    else:
+        while True:
+            choice = input("Type the number for the action you would like to perform:\n\n 1. Search / Get Recommendations\n 2. Print Full Movie List\n 3. Exit\n -")
+            if choice == 0:
+                view()
+            elif choice == 1:
+                search()
+            else:
+                print("Thank you for using this program!")
+                break
 
-view()
+main()
