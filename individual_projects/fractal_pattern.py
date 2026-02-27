@@ -13,26 +13,38 @@
     # 
 
 
-import turtle
+from turtle import *
 import time
 
-turtle.shape("turtle")
-screen = turtle.Screen()
+shape("turtle")
+screen = Screen()
 screen.tracer
-turtle.color("blue")
-turtle.penup()
-turtle.forward(500)
-turtle.left(90)
-turtle.backward(450)
-turtle.left(90)
-turtle.pendown()
+color("blue")
+speed(5)
+penup()
+teleport(500,-400)
+setheading(180)
+pendown()
 
-def build_tri():
-    for _ in range(3):
-        turtle.forward(1000)
-        turtle.right(120)
+def main():
+    length = 1000
+    positions = []
+    recursions = input("how many recursions do you want? ")
+    for i in range(int(recursions)):
+        for _ in range(3):
+            positions.append(tuple(position()))
+            forward(length)
+            right(120)
+        length /= 2  
+        penup()
+        setheading(150)
+        for x in range(len(positions)-1):
+            p1 = positions[x-1]
+            p2 = positions[x]
+            teleport((p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2)
+        pendown()
 
-    
-build_tri()
 
-time.sleep(5)
+main()
+
+mainloop()
