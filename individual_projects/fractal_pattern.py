@@ -1,50 +1,61 @@
 # JS, 1st, Fractal Pattern Generator
 
 # ----- PSUEDOCODE -----
-# Create turtle setup function
-    # set turtle to turtle shape
-    # ask user what color for the turtle
-    # ask user the recursion depth
-    # ask user what color for the background
-    # ask user which fractal to do
-# Create Sierpinski gasket function
-    # 
-# Create Sierpinski carpet function
-    # 
+#set up all the turtle things
+#define main function
+#   define the actual creation triangle function
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 
-
+# ----- PSUEDOCODE & CODE -----
 from turtle import *
-import time
 
-shape("turtle")
 screen = Screen()
-screen.tracer
+shape("turtle")
 color("blue")
-speed(5)
-penup()
-teleport(500,-400)
-setheading(180)
-pendown()
+speed(0)
+penup() 
 
 def main():
-    length = 1000
-    positions = []
-    recursions = input("how many recursions do you want? ")
-    for i in range(int(recursions)):
-        for _ in range(3):
-            positions.append(tuple(position()))
-            forward(length)
-            right(120)
-        length /= 2  
-        penup()
-        setheading(150)
-        for x in range(len(positions)-1):
-            p1 = positions[x-1]
-            p2 = positions[x]
-            teleport((p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2)
-        pendown()
+    def create(length, i):
+        if i == 0:
+            for _ in range(3):
+                forward(length)
+                left(120)
+            return
+        half = length / 2
+        create(half, i - 1)
+        forward(half)
+        create(half, i - 1)
+        backward(half)
+        left(60)
+        forward(half)
+        right(60)
+        create(half, i - 1)
+        left(60)
+        backward(half)
+        right(60)
+        
+    recursions = int(input("How many recursions do you want? "))
+    length = 600
 
+    teleport(-length / 2, -length / 2)
+    pendown()
+    create(length / 2, recursions)
 
 main()
-
 mainloop()
