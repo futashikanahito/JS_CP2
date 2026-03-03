@@ -11,14 +11,14 @@
 # 4. After each action (except Exit), print timestamp and append word count to file
 
 # ----- CODE & PSEUDOCODE -----
-import word_counter_file
-import word_counter_time
+import file_saver
+import time_saver
 
 # Pseudocode for update():
 # - Call organize() to count words in the file
 # - Print the updated word count
 def update(current_file):
-    word_count = word_counter_file.organize(current_file)
+    word_count = file_saver.organize(current_file)
     print(f"\nDocument updated. Word count: {word_count}\n")
 
 # Pseudocode for view():
@@ -26,7 +26,7 @@ def update(current_file):
 # - Print the content
 def view(current_file):
     print("\nDocument content:")
-    main_text = word_counter_file.get_main_text(current_file)
+    main_text = file_saver.get_main_text(current_file)
     print(main_text)
     print()
 
@@ -48,7 +48,7 @@ def add(current_file):
 
         lines.append(line)
 
-    main_text = word_counter_file.main_text(current_file)
+    main_text = file_saver.main_text(current_file)
     new_text = main_text + ("\n" if main_text else "") + "\n".join(lines)
 
     with open(current_file, "w") as file:
@@ -59,7 +59,7 @@ def add(current_file):
 # Pseudocode for main():
 # - Loop: ask for file path; break when valid file is found
 # - Loop: show menu, read choice, call matching function
-# - After each action (except Exit), get timestamp and word count, append to file
+# - After each action (except Exit), get time_saverstamp and word count, append to file
 def main():
 
     while True:
@@ -95,8 +95,8 @@ def main():
             print("Invalid option. Please enter a number from 1 to 7.")
         
         #PRINT TIMESTAMP AND OTHER STUFF IDK I KINDA JUST WORK HERE
-        time = word_counter_time.timestamp()
-        word_count = word_counter_file.organize(current_file)
-        word_counter_file.append(current_file, word_count, time)
+        timestamp = time_saver.timestamp()
+        word_count = file_saver.organize(current_file)
+        file_saver.append(current_file, word_count, timestamp)
 
 main()
