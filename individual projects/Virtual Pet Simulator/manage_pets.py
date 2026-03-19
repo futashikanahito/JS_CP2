@@ -1,4 +1,5 @@
 # [5] Pet Management
+from pet import Pet
 
 def managment(current_pet, pets):
     while True:
@@ -21,9 +22,11 @@ Enter your choice: """)
         
 #-------- CALLS --------
         if choice == 1:
-            pass
+            pets.append(Pet())
         elif choice == 2:
-            pass
+            for i, pet in enumerate(pets):
+                print(f"[{i}] {pet}")
+            
         elif choice == 3:
             pass
         elif choice == 4:
