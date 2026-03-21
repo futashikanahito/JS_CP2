@@ -28,12 +28,15 @@ class Pet:
         self.hunger = 100
         self.happiness = 100
         self.energy = 100
-        self.skills = []
+        self.xp = 0
 
         print("\nPet created successfully!")
     
     def __str__(self):
         return f"{self.name} ({self.species}, {self.age}yrs)"
     
-    def details(self):
+    def status(self):
         return f"{self.name} ({self.species}, {self.age}yrs)"
+    
+    def save(self):
+        return [self.name, self.species, self.age, self.level, self.hunger, self.happiness, self.energy, self.xp]

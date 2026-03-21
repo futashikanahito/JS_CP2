@@ -31,7 +31,7 @@ Welcome! Let's create your first pet!
 ===========================================================
                    --- MAIN MENU ---
 ===========================================================        
-Current Pet: {pets[0].details()} | Time: Day {day}, {f"{time}" + " AM" if time < 12 else f"{time / 2}" + " PM"}
+Current Pet: {pets[current_pet]} | Time: Day {day}, {f"{time}" + " AM" if time < 12 else f"{time / 2}" + " PM"}
 """)
 
 #-------- CHOICES --------
@@ -44,7 +44,8 @@ Current Pet: {pets[0].details()} | Time: Day {day}, {f"{time}" + " AM" if time <
 [5] Pet Management
 [6] Save Game
 [7] Load Game
-[8] Quit
+[8] Clear Save Data & Restart (Permanent!)
+[9] Quit
 
 Enter your choice (1-8): """)
             try:
@@ -66,10 +67,15 @@ Enter your choice (1-8): """)
         elif choice == 5:
             current_pet, pets = manage_pets.managment(current_pet, pets)
         elif choice == 6:
-            load_save.save()
+            load_save.save(pets)
         elif choice == 7:
             load_save.load()
         elif choice == 8:
+            confirm = input("Are you absolutely sure? (y/n) ")
+            if confirm == "y":
+                load_save.clear()
+                main()
+        elif choice == 9:
             exit()
         
 main()
