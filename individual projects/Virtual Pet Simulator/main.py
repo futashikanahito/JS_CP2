@@ -6,6 +6,7 @@ import actions
 import load_save
 import manage_pets
 import pet_races
+import helpers
 from pet import Pet
 
 #---------------------- MAIN MENU ----------------------
@@ -125,6 +126,10 @@ Enter your choice (1-11): """)
             exit()
         elif choice == 11:
             pet_races.race(pets, current_pet, money)
+        
+        #-------- RANDOM EVENT --------
+        money, user_inv = helpers.random_event(pets, current_pet, money, user_inv)
+        input("\nPress Enter to continue... ")
         
         #-------- STAT CHANGES / DAY END --------
         if time == 20:
