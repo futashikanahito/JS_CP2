@@ -1,34 +1,17 @@
 #---------------------- CLASSES ----------------------
 class Pet:
-    def __init__(self):
-        self.name = input("Pet Name: ")
-        print()
-
-        choice = input("[1] Cat\n[2] Dog\n[3] Lizard\n[4] Snake\n[5] Fish\n[6] Rabbit\n[7] Bird\n[8] Turtle\n\nEnter your choice: ")
-        while True:
-            try:
-                choice = int(choice)
-                break
-            except:
-                choice = input("That was not a valid choice! Enter your choice: ")
-        species = ("Cat" if choice == 1 else "Dog" if choice == 2 else "Lizard" if choice == 3 else "Snake" if choice == 4 else "Fish" if choice == 5 else "Rabbit" if choice == 6 else "Bird" if choice == 7 else "Turtle")
+    def __init__(self, name, species, age, level, health, hunger, happiness, energy, xp, pet_inv, attributes):
+        self.name = name
         self.species = species
-
-        age = input("\nAge (in yrs): ")
-        while True:
-            try:
-                age = float(age)
-                break
-            except:
-                age = input("That was not a valid age! \nAge (in yrs): ")
         self.age = age
-
-        self.level = 1
-        self.health = 100
-        self.hunger = 100
-        self.happiness = 100
-        self.energy = 100
-        self.xp = 0
+        self.level = level
+        self.health = health
+        self.hunger = hunger
+        self.happiness = happiness
+        self.energy = energy
+        self.xp = xp
+        self.pet_inv = pet_inv
+        self.attributes = attributes
 
         print("\nPet created successfully!")
     
@@ -36,7 +19,50 @@ class Pet:
         return f"{self.name} ({self.species}, {self.age}yrs)"
     
     def status(self):
-        return f"{self.name} ({self.species}, {self.age}yrs)"
+        return f"""┌─────── ─ ─ ─
+│ Name: {self.name}
+│ Species: {self.species}
+│ Age: {self.age} years
+│ Level: {self.level}
+│ Health: {self.health}%
+│ Hunger: {self.hunger}%
+│ Happiness: {self.happiness}%
+│ Energy: {self.energy}%
+| EXP: {self.xp} / 100 
+│ Pet Inventory: {self.pet_inv}
+│ Attributes: {self.attributes}
+└─────── ─ ─ ─"""
     
     def save(self):
-        return [self.name, self.species, self.age, self.level, self.hunger, self.happiness, self.energy, self.xp]
+        return [self.name, self.species, self.age, self.level, self.hunger, self.happiness, self.energy, self.xp, self.pet_inv, self.attributes]
+    
+    def feed(self):
+        pass
+
+    def play(self):
+        pass
+
+    def sleep(self):
+        pass
+
+    def inventory(self):
+        return self.pet_inv
+    
+    def exp(self):
+        return self.xp
+    
+    def stash(self, index):
+        if index == 0:
+            self.pet_inv[index] == "speed_amulet"
+        elif index == 1:
+            self.pet_inv[index] == "armor"
+        elif index == 2:
+            self.pet_inv[index] == "training"
+    
+    def level_up(self):
+        if self.attributes[0] < 10:
+            self.attributes[0] += 1
+        if self.attributes[1] < 10:
+            self.attributes[1] += 1
+        if self.attributes[2] < 10:
+            self.attributes[2] += 1
