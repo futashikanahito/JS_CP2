@@ -1,14 +1,104 @@
 ---------------------- MAIN.PY ----------------------
-
-
----------------------- LOAD_SAVE.PY ----------------------
-
+import os, random, and all project files (actions, load_save, manage_pets, pet_races, Pet)
+set up starting variables: pets list, day, time, money, user_inv
+--
+define main function
+    clear screen and print welcome message
+    ask user for pet name, species, and age
+    create first Pet object and append to pets list
+    begin main loop:
+        clear screen and print main menu with current pet, time, money, inventory
+        ask user for action choice (1-11)
+        call the appropriate function based on choice:
+            feed, play, sleep, status, manage, shop, save, load, clear, quit, or race
+        trigger a random event and display the result
+        update time and increment day if time hits 20
+        check if money is 0 and end game if so
+        check if current pet has enough XP to level up, reset XP if so
 
 ---------------------- ACTIONS.PY ----------------------
+define feed function (pets, current_pet, user_inv)
+    show menu of food options with current stock counts
+    ask user to pick a food type or cancel
+    if they have 0 of that food, print error and return None
+    otherwise apply hunger and health changes to pet, add XP
+    return the inventory index so main.py can decrement stock
+--
+define play function (pets, current_pet)
+    check pet has enough energy to play, warn if not
+    show menu of play options (walk, fetch, cuddle)
+    apply happiness gain, energy cost, hunger cost, and XP based on choice
+--
+define sleep function (pets, current_pet)
+    check pet isn't already at full energy
+    show menu of sleep options (nap, rest, long sleep)
+    apply energy gain, happiness change, hunger cost, and XP based on choice
+--
+define shop function (pets, current_pet, user_inv, money)
+    show shop menu with food prices and equipment availability
+    ask user for choice
+    if they have enough money, deduct cost and add item to inventory or pet_inv
+    return updated user_inv and money
 
+---------------------- HELPERS.PY ----------------------
+import random
+--
+define random_event function (pets, current_pet, money, user_inv)
+    define a list of possible events, each with an id and a message
+        good events: find money, receive free food, energy boost, hunger boost, happiness boost, health boost
+        bad events: vet bill, health drop, energy drain, happiness drop, hunger drain
+        neutral events: flavour messages where nothing happens
+    pick a random event from the list
+    print the event message
+    apply the effect based on the event id:
+        if good: increase the relevant stat or money, clamp to 100 max
+        if bad: decrease the relevant stat or money, clamp to 0 min
+        if neutral: do nothing
+    return updated money and user_inv
 
----------------------- MANAGEMENT.PY ----------------------
+---------------------- LOAD_SAVE.PY ----------------------
+ import csv and Pet class
+--
+define save function (pets, day, time, money, user_inv)
+    loop through pets and call pet.save() on each, collecting results
+    write pet data to save_pets.csv with headers
+    write day, time, money, user_inv to save_user.csv with headers
+--
+define load function
+    open save_pets.csv, skip header row
+    for each row, reconstruct a Pet object (casting each field to correct type, eval() for lists)
+    open save_user.csv, skip header, read the single data row
+    cast day, time, money to int and eval() user_inv
+    handle StopIteration if save file is empty
+    return pets, day, time, money, user_inv
+--
+define clear function
+    overwrite both CSV files with just their header rows anddefault values
 
+---------------------- MANAGE_PETS.PY ----------------------
+import Pet and random
+--
+define managment function (current_pet, pets, money)
+    loop showing pet management menu:
+    [buy] if money >= 50, deduct $50, ask for name/species/age
+        create new Pet with default stats and random attributes (3 random ints 1-6)
+        append to pets list
+    [breed] placeholder - needs 2 pets minimum  # WORK ON THIS ************************************************************
+    [switch] list all pets, ask user to pick one, update current_pet index
+    [release] confirm, list all pets, remove chosen pet
+        if current_pet index is now out of range, set it to last pet
+        if pets list is now empty, return so main can handle it
+    [back] return current_pet and pets to main
+
+---------------------- PET_RACES.PY ----------------------
+# WORK ON THIS ************************************************************************************************************
 
 ---------------------- PET.PY ----------------------
-
+define Pet class
+    __init__: store name, species, age, level, health, hunger, happiness, energy, xp, pet_inv, attributes
+    __str__: return formatted string of name, species, age
+    status: return full stat block as a formatted string
+    save: return list of all attributes for CSV writing 
+    exp: return current xp value
+    stash: assign item to pet_inv slot by index 
+    level_up: increment each attribute by 1 up to a max of 10

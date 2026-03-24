@@ -67,7 +67,7 @@ Welcome! Let's create your first pet!
 ===========================================================
                    --- MAIN MENU ---
 ===========================================================        
-Current Pet: {pet} | Time: Day {day}, {f"{time}" + " AM" if time < 12 else f"{time / 2}" + " PM"} | Money: ${money} | Your Inventory: {user_inv[0]} Premium dog food, {user_inv[1]} Mediocre dog food, {user_inv[2]} Trash dog food
+Current Pet: {pet} | Time: Day {day}, {f"{time}" + " AM" if time < 12 else f"{time // 2}" + " PM"} | Money: ${money} | Your Inventory: {user_inv[0]} Premium dog food, {user_inv[1]} Mediocre dog food, {user_inv[2]} Trash dog food
 """)
         #-------- RANDOM EVENT --------
         money, user_inv = helpers.random_event(pets, current_pet, money, user_inv)
@@ -110,6 +110,8 @@ Enter your choice (1-11): """)
             input("Press Enter to continue... ")
         elif choice == 5:
             current_pet, pets = manage_pets.managment(current_pet, pets, money)
+            if len(pets) == 0:
+                main()
         elif choice == 6:
             user_inv, money = actions.shop(pet, user_inv, money)
         elif choice == 7:
@@ -147,6 +149,7 @@ Enter your choice (1-11): """)
         exp = pet.exp()
         if exp > 100:
             pet.level_up()
+            pet.xp = 0
             print("You leveled up.")
             input("Press Enter to continue... ")
 

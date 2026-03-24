@@ -177,7 +177,7 @@ Enter your choice: """)
         money -= 15
         pet.stash(1)
         print("You bought Armor.")
-    elif choice == 5 and money >= 20 and "training" not in pet.inventory():
+    elif choice == 6 and money >= 20 and "training" not in pet.inventory():
         money -= 20
         pet.stash(2)
         print("You bought additional training.")

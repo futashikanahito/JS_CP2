@@ -45,11 +45,11 @@ class Pet:
     
     def stash(self, index):
         if index == 0:
-            self.pet_inv[index] == "speed_amulet"
+            self.pet_inv[index] = "speed_amulet"
         elif index == 1:
-            self.pet_inv[index] == "armor"
+            self.pet_inv[index] = "armor"
         elif index == 2:
-            self.pet_inv[index] == "training"
+            self.pet_inv[index] = "training"
     
     def level_up(self):
         if self.attributes[0] < 10:

@@ -1,5 +1,6 @@
 # [5] Pet Management
 from pet import Pet
+import random
 
 def managment(current_pet, pets, money):
     while True:
@@ -56,8 +57,8 @@ Enter your choice: """)
                 happiness = 100
                 energy = 100
                 xp = 0
-                pet_inv = [False, False]
-                attributes = []
+                pet_inv = [False, False, False]
+                attributes = [random.randint(1, 6), random.randint(1, 6), random.randint(1, 6)]
 
                 pets.append(Pet(name, species, age, level, health, hunger, happiness, energy, xp, pet_inv, attributes))
 
@@ -97,6 +98,11 @@ Enter your choice: """)
                     except:
                         choice = input("\nEnter your choice: ")
                 pets.remove(pets[choice - 1])
+                if current_pet >= len(pets):
+                    current_pet = len(pets) - 1
+                if len(pets) == 0:
+                    print("\nYou have no pets left! Returning to main menu to start over.")
+                    return current_pet, pets
 
         #-------- BACK TO MAIN --------
         elif choice == 5:
