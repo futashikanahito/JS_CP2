@@ -14,6 +14,7 @@ class Pet:
         self.attributes = attributes
 
         print("\nPet created successfully!")
+        input("Press Enter to continue... ")
     
     def __str__(self):
         return f"{self.name} ({self.species}, {self.age}yrs)"
@@ -28,22 +29,13 @@ class Pet:
 │ Hunger: {self.hunger}%
 │ Happiness: {self.happiness}%
 │ Energy: {self.energy}%
-| EXP: {self.xp} / 100 
-│ Pet Inventory: {self.pet_inv}
-│ Attributes: {self.attributes}
+│ EXP: {self.xp} / 100 
+│ Pet Inventory: {f"{self.pet_inv[0].title()}" + ", " if self.pet_inv[0] != None else ""} {f"{self.pet_inv[1].title()}" + ", " if self.pet_inv[1] != None else ""} {f"{self.pet_inv[2].title()}" + ", " if self.pet_inv[2] != None else ""} {None if self.pet_inv == None else ""}
+│ Attributes: {self.attributes[0]} Speed, {self.attributes[1]} Endurance, {self.attributes[2]} Form
 └─────── ─ ─ ─"""
     
     def save(self):
-        return [self.name, self.species, self.age, self.level, self.hunger, self.happiness, self.energy, self.xp, self.pet_inv, self.attributes]
-    
-    def feed(self):
-        pass
-
-    def play(self):
-        pass
-
-    def sleep(self):
-        pass
+        return [self.name, self.species, self.age, self.level, self.health, self.hunger, self.happiness, self.energy, self.xp, self.pet_inv, self.attributes]
 
     def inventory(self):
         return self.pet_inv

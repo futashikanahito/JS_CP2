@@ -62,16 +62,20 @@ Welcome! Let's create your first pet!
 #-------- MAIN LOOP --------
     while True:
         os.system("cls")
+        pet = pets[current_pet]
         print(f"""
 ===========================================================
                    --- MAIN MENU ---
 ===========================================================        
-Current Pet: {pets[current_pet]} | Time: Day {day}, {f"{time}" + " AM" if time < 12 else f"{time / 2}" + " PM"} | Money: ${money} | Your Inventory: {user_inv[0]} Premium dog food, {user_inv[1]} Mediocre dog food, {user_inv[2]} Trash dog food
+Current Pet: {pet} | Time: Day {day}, {f"{time}" + " AM" if time < 12 else f"{time / 2}" + " PM"} | Money: ${money} | Your Inventory: {user_inv[0]} Premium dog food, {user_inv[1]} Mediocre dog food, {user_inv[2]} Trash dog food
 """)
+        #-------- RANDOM EVENT --------
+        money, user_inv = helpers.random_event(pets, current_pet, money, user_inv)
+        input("\nPress Enter to continue... ")
 
 #-------- CHOICES --------
         while True:
-            choice = input("""ACTIONS:
+            choice = input("""\nACTIONS:
 [1] Feed Pet
 [2] Play with Pet  
 [3] Put Pet to Sleep
@@ -94,18 +98,20 @@ Enter your choice (1-11): """)
 
 #-------- CALLS --------
         if choice == 1:
-            actions.feed(pets, current_pet)
+            inv_index = actions.feed(pet, user_inv)
+            if inv_index is not None:
+                user_inv[inv_index] -= 1
         elif choice == 2:
-            actions.play(pets, current_pet)
+            actions.play(pet)
         elif choice == 3:
-            actions.sleep(pets, current_pet)
+            actions.sleep(pet)
         elif choice == 4:
-            print(pets[current_pet].status())
+            print(pet.status())
             input("Press Enter to continue... ")
         elif choice == 5:
             current_pet, pets = manage_pets.managment(current_pet, pets, money)
         elif choice == 6:
-            user_inv, money = actions.shop(user_inv, money)
+            user_inv, money = actions.shop(pet, user_inv, money)
         elif choice == 7:
             confirm = input("This will overwrite your previous information. Are you sure? (y/n) ")
             if confirm == "y":
@@ -127,13 +133,10 @@ Enter your choice (1-11): """)
         elif choice == 11:
             pet_races.race(pets, current_pet, money)
         
-        #-------- RANDOM EVENT --------
-        money, user_inv = helpers.random_event(pets, current_pet, money, user_inv)
-        input("\nPress Enter to continue... ")
-        
         #-------- STAT CHANGES / DAY END --------
         if time == 20:
-            print("\nYou head to bed for the night.\n")
+            print("\nYou head to bed for the night.")
+            input("Press Enter to continue... ")
             time = 4
         time += 4 
 
@@ -141,9 +144,10 @@ Enter your choice (1-11): """)
             print("\nYou went broke and ended up on the streets, having to sell all your pets to stay alive.\nGAME OVER")
             exit()
         
-        exp = pets[current_pet].exp()
+        exp = pet.exp()
         if exp > 100:
-            pets[current_pet].level_up()
+            pet.level_up()
             print("You leveled up.")
+            input("Press Enter to continue... ")
 
 main()

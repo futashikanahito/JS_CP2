@@ -1,1 +1,2 @@
-name,species,age,level,hunger,happiness,energy,xp
+name,species,age,level,health,hunger,happiness,energy,xp,pet_inv,attributes
+Skyfall,Cat,2.0,1,100,100,100,100,0,"[None, None, None]","[3, 2, 3]"
