@@ -83,7 +83,6 @@ define managment function (current_pet, pets, money)
     [buy] if money >= 50, deduct $50, ask for name/species/age
         create new Pet with default stats and random attributes (3 random ints 1-6)
         append to pets list
-    [breed] placeholder - needs 2 pets minimum  # WORK ON THIS ************************************************************
     [switch] list all pets, ask user to pick one, update current_pet index
     [release] confirm, list all pets, remove chosen pet
         if current_pet index is now out of range, set it to last pet
@@ -91,7 +90,28 @@ define managment function (current_pet, pets, money)
     [back] return current_pet and pets to main
 
 ---------------------- PET_RACES.PY ----------------------
-# WORK ON THIS ************************************************************************************************************
+import random and os
+--
+define race function (pet, money)
+    check if pet energy is below 20, if so print warning and return money unchanged
+    print race menu showing pet's speed, stamina, form, and energy
+    ask user to pick a race tier or back
+    if back, return money unchanged
+    look up entry fee, prize, tier name, and npc stat range from tier map
+    if player can't afford entry fee, print warning and return money unchanged
+    deduct entry fee from money
+    calculate player score: (speed * 3) + (stamina * 2) + (form * 1) + random(0-10)
+        apply equipment bonuses to relevant stats before scoring
+    generate 5 NPC racers with random names and scores using the tier's stat range
+    combine player and NPCs into a racers list and sort by score descending
+    find the player's finishing place by searching for "(YOU)" in the list
+    print results in order
+    apply rewards based on place:
+        1st: add full prize to money, +30 XP, +20 happiness
+        2nd: add prize // 4 to money, +15 XP, +10 happiness
+        other: +5 XP, -10 happiness
+    deduct 30 energy regardless of outcome
+    return updated money
 
 ---------------------- PET.PY ----------------------
 define Pet class
