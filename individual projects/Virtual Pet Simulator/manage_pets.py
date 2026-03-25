@@ -9,10 +9,9 @@ def managment(current_pet, pets, money):
         while True:
             choice = input("""
 [1] Buy New Pet (Costs $50)
-[2] Breed New Pet (Needs 2 Parents)
-[3] Switch Active Pet
-[4] Release Active Pet (Permanent!)
-[5] Back to Main Menu
+[2] Switch Active Pet
+[3] Release Active Pet (Permanent!)
+[4] Back to Main Menu
 
 Enter your choice: """)
             try:
@@ -61,16 +60,9 @@ Enter your choice: """)
                 attributes = [random.randint(1, 6), random.randint(1, 6), random.randint(1, 6)]
 
                 pets.append(Pet(name, species, age, level, health, hunger, happiness, energy, xp, pet_inv, attributes))
-
-        #-------- BREED --------
-        elif choice == 2:
-            if len(pets) < 2:
-                print("\nYou do not have enough pets to breed.")
-            else:
-                pass # FINISH 
         
         #-------- SWITCH ACTIVE --------
-        elif choice == 3:
+        elif choice == 2:
             for i, pet in enumerate(pets):
                 print(f"[{i + 1}] {pet}")
             choice = input("\nEnter your choice: ")
@@ -84,7 +76,7 @@ Enter your choice: """)
             current_pet = choice - 1 
         
         #-------- RELEASE --------
-        elif choice == 4:
+        elif choice == 3:
             confirm = input("Are you absolutely sure? (y/n) ")
             if confirm == "y":
                 for i, pet in enumerate(pets):
@@ -105,5 +97,5 @@ Enter your choice: """)
                     return current_pet, pets
 
         #-------- BACK TO MAIN --------
-        elif choice == 5:
+        elif choice == 4:
             return current_pet, pets

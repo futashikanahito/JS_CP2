@@ -67,7 +67,7 @@ Welcome! Let's create your first pet!
 ===========================================================
                    --- MAIN MENU ---
 ===========================================================        
-Current Pet: {pet} | Time: Day {day}, {f"{time}" + " AM" if time < 12 else f"{time // 2}" + " PM"} | Money: ${money} | Your Inventory: {user_inv[0]} Premium dog food, {user_inv[1]} Mediocre dog food, {user_inv[2]} Trash dog food
+Current Pet: {pet} | Time: Day {day}, {f"{time}" + " AM" if time < 12 else f"{time // 2}" + " PM"} | Money: ${money} | Your Inventory: {user_inv[0]} Premium {pet.species} food, {user_inv[1]} Mediocre {pet.species} food, {user_inv[2]} Trash {pet.species} food
 """)
         #-------- RANDOM EVENT --------
         money, user_inv = helpers.random_event(pets, current_pet, money, user_inv)
@@ -82,10 +82,12 @@ Current Pet: {pet} | Time: Day {day}, {f"{time}" + " AM" if time < 12 else f"{ti
 [4] Check Status
 [5] Pet Management
 [6] Shop
+---
 [7] Save Game (Permanent!)
 [8] Load Game (Permanent!)
 [9] Clear Save Data & Restart (Permanent!)
 [10] Quit
+---
 [11] RACE
 
 Enter your choice (1-11): """)
@@ -133,13 +135,14 @@ Enter your choice (1-11): """)
             os.system("cls")
             exit()
         elif choice == 11:
-            pet_races.race(pets, current_pet, money)
+            money = pet_races.race(pet, money)
         
         #-------- STAT CHANGES / DAY END --------
         if time == 20:
             print("\nYou head to bed for the night.")
             input("Press Enter to continue... ")
             time = 4
+            day += 1
         time += 4 
 
         if money == 0:
@@ -147,9 +150,10 @@ Enter your choice (1-11): """)
             exit()
         
         exp = pet.exp()
-        if exp > 100:
+        if exp >= 100:
             pet.level_up()
             pet.xp = 0
+            pet.level += 1
             print("You leveled up.")
             input("Press Enter to continue... ")
 

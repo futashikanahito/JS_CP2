@@ -29,7 +29,7 @@ def load():
         
         pets = []
         for line in rows:
-            pets.append(Pet(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], list[line[9]], list[line[10]]))
+            pets.append(Pet(line[0], line[1], float(line[2]), int(line[3]), int(line[4]), int(line[5]), int(line[6]), int(line[7]), int(line[8]), eval(line[9]), eval(line[10])))
     
     with open("individual projects/Virtual Pet Simulator/save_user.csv", "r", newline="") as file:
         csv_reader = csv.reader(file)
@@ -39,7 +39,7 @@ def load():
     day = int(row[0])
     time = int(row[1])
     money = int(row[2])
-    user_inv = eval[row[3]]
+    user_inv = eval(row[3])
     
     return pets, day, time, money, user_inv
 

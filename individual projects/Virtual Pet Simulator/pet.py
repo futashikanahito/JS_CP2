@@ -30,7 +30,7 @@ class Pet:
 │ Happiness: {self.happiness}%
 │ Energy: {self.energy}%
 │ EXP: {self.xp} / 100 
-│ Pet Inventory: {f"{self.pet_inv[0].title()}" + ", " if self.pet_inv[0] != None else ""} {f"{self.pet_inv[1].title()}" + ", " if self.pet_inv[1] != None else ""} {f"{self.pet_inv[2].title()}" + ", " if self.pet_inv[2] != None else ""} {None if self.pet_inv == None else ""}
+│ Pet Inventory: {f"{self.pet_inv[0].title()}" + ", " if self.pet_inv[0] != None else ""} {f"{self.pet_inv[1].title()}" + ", " if self.pet_inv[1] != None else ""} {f"{self.pet_inv[2].title()}" + ", " if self.pet_inv[2] != None else ""} {"None" if self.pet_inv == None else ""}
 │ Attributes: {self.attributes[0]} Speed, {self.attributes[1]} Endurance, {self.attributes[2]} Form
 └─────── ─ ─ ─"""
     

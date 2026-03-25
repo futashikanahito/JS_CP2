@@ -3,10 +3,12 @@
 def feed(pet, user_inv):
     if pet.hunger >= 100:
         print(f"\n{pet.name} is already full and sniffs the food uninterestedly.")
+        input("Press Enter to continue... ")
         return
 
     if pet.energy <= 0:
         print(f"\n{pet.name} is too exhausted to even eat. Let them sleep first.")
+        input("Press Enter to continue... ")
         return
 
     print(f"""
@@ -48,16 +50,19 @@ def feed(pet, user_inv):
 
     print(f"\nYou fed {pet.name} some {food_name}.")
     print(f"  Hunger: +{hunger_gain}  |  Health: {'+' if health_change >= 0 else ''}{health_change} | Happiness: {'+' if health_change >= 0 else ''}{happiness_change}")
+    input("Press Enter to continue... ")
 
     return inv_index
 
 def play(pet):
     if pet.energy <= 20:
         print(f"\n{pet.name} is too tired to play. Let them rest first!")
+        input("Press Enter to continue... ")
         return
 
     if pet.happiness >= 100:
         print(f"\n{pet.name} is already as happy as can be!")
+        input("Press Enter to continue... ")
         return
 
     print(f"""
@@ -91,14 +96,16 @@ def play(pet):
     pet.happiness = min(100, pet.happiness + happiness_gain)
     pet.energy = max(0, pet.energy + energy_cost)
     pet.hunger = max(0, pet.hunger + hunger_cost)
-    pet.xp = max(100, pet.xp + xp_gain)
+    pet.xp = min(100, pet.xp + xp_gain)
 
     print(f"\n{message.format(name=pet.name)}")
     print(f"  Happiness: +{happiness_gain}  |  Energy: {energy_cost}  |  XP: +{xp_gain}")
+    input("Press Enter to continue... ")
 
 def sleep(pet):
     if pet.energy >= 100:
         print(f"\n{pet.name} isn't tired at all and refuses to go to sleep.")
+        input("Press Enter to continue... ")
         return
 
     print(f"""
@@ -132,17 +139,18 @@ def sleep(pet):
     pet.energy = min(100, pet.energy + energy_gain)
     pet.happiness = max(0, min(100, pet.happiness + happiness_change))
     pet.hunger = max(0, pet.hunger + hunger_cost)
-    pet.xp = max(100, pet.xp + xp_gain)
+    pet.xp = min(100, pet.xp + xp_gain)
 
     print(f"\n{pet.name} had a {sleep_name}. They wake up feeling {'refreshed' if energy_gain >= 60 else 'a little better'}.")
     print(f"  Energy: +{energy_gain}  |  Happiness: {'+' if happiness_change >= 0 else ''}{happiness_change}  |  Hunger: {hunger_cost}")
+    input("Press Enter to continue... ")
 
 def shop(pet, user_inv, money):
     while True:
         choice = input(f"""
-[1] Buy Premium dog food (5 for $50)
-[2] Buy Mediocre dog food (5 for $25)
-[3] Buy Trash dog food (5 for $10)
+[1] Buy Premium {pet.species} food (5 for $50)
+[2] Buy Mediocre {pet.species} food (5 for $25)
+[3] Buy Trash {pet.species} food (5 for $10)
 [4] Speed Amulet ({"$10" if "speed_amulet" not in pet.inventory() else "BOUGHT"})
 [5] Armor ({"$15" if "armor" not in pet.inventory() else "BOUGHT"})
 [6] Additional Training ({"$20" if "training" not in pet.inventory() else "BOUGHT"})
@@ -160,15 +168,15 @@ Enter your choice: """)
     if choice == 1 and money >= 50:
         money -= 50
         user_inv[0] += 5
-        print("You bought Premium dog food.")
+        print(f"You bought Premium {pet.species} food.")
     elif choice == 2 and money >= 25:
         money -= 25
         user_inv[1] += 5
-        print("You bought Mediocre dog food.")
+        print(f"You bought Mediocre {pet.species} food.")
     elif choice == 3 and money >= 10:
         money -= 10
         user_inv[2] += 5
-        print("You bought Trash dog food.")
+        print(f"You bought Trash {pet.species} food.")
     elif choice == 4 and money >= 10 and "speed_amulet" not in pet.inventory():
         money -= 10
         pet.stash(0)
@@ -181,7 +189,10 @@ Enter your choice: """)
         money -= 20
         pet.stash(2)
         print("You bought additional training.")
+    elif choice == 7:
+        return user_inv, money
     else:
         print("You either have insufficient funds or already have that item.")
     
+    input("Press Enter to continue... ")
     return user_inv, money
