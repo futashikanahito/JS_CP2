@@ -7,7 +7,7 @@ from classes import Student
 
 #---------------------- MAIN MENU ----------------------
 def main():
-#-------- Initialization --------
+#-------- INITIALIZE --------
     os.system("cls")
 
     students = []
@@ -20,6 +20,8 @@ def main():
 
 Welcome to the Class Grade Book!
 """)
+    
+    actions.add_student()
     
 #-------- MAIN LOOP --------
     while True:
