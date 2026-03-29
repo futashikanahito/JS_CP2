@@ -3,15 +3,14 @@
 import os
 import actions
 import load_save
-from classes import Student
+from classes import Student, GradeBook
 
 #---------------------- MAIN MENU ----------------------
 def main():
 #-------- INITIALIZE --------
     os.system("cls")
 
-    students = []
-    stu_index = 0
+    book = GradeBook()
 
     print("""
 ===========================================================
@@ -21,60 +20,71 @@ def main():
 Welcome to the Class Grade Book!
 """)
     
-    actions.add_student()
+    actions.add_student(book)
     
-#-------- MAIN LOOP --------
+#-------- MAIN LOOP & CHOICES --------
     while True:
-        current = students[stu_index]
-        os.system("cls")
-        print(f"""
+        while True:
+            os.system("cls")
+            choice = input("""
 ===========================================================
                    --- MAIN MENU ---
-===========================================================        
---- | --- | --- | ---
-""")
+===========================================================
 
-#-------- CHOICES --------
-        while True:
-            choice = input("""\nACTIONS:
+ACTIONS:
 [1] Add New Student
 [2] Add Grade to Student
-[3] View Student Record
-[4] View All Students
-[5] Class Summary
+[3] View Student Record (NOT FINISHED)
+[4] View All Student
+[5] Class Summary (NOT FINISHED)
+[6] Search Students
 ---
-[6] Save (Permanent!)
-[7] Load (Permanent!)
-[8] Clear (Permanent!)
+[7] Save (Permanent!)
+[8] Load (Permanent!)
+[9] Clear (Permanent!)
 ---
-[9] Exit
+[10] Exit
 
-Enter your choice (1-6): """)
+Enter your choice (1-10): """)
             try:
                 choice = int(choice)
-                if 1 <= choice <= 9:
+                if 1 <= choice <= 10:
                     break
             except:
                 os.system("cls")
 
 #-------- CALLS --------
         if choice == 1:
-            actions.add_student()
+            actions.add_student(book)
         elif choice == 2:
-            actions.add_grade()
+            actions.add_grade(book)
         elif choice == 3:
-            actions.view_student()
+            actions.view_student() # NOT DONE
         elif choice == 4:
-            actions.view_all()
+            actions.view_all(book)
         elif choice == 5:
-            actions.summary()
+            actions.summary() # NOT DONE
         elif choice == 6:
-            load_save.save()
+            actions.search(book)
         elif choice == 7:
-            load_save.load()
+            confirm = input("This will overwrite your previous information. Are you sure? (y/n) ")
+            if confirm == "y":
+                load_save.save(book)
+                for student in book.list:
+                    student.update()
         elif choice == 8:
-            load_save.clear()
+            confirm = input("This will overwrite your previous information. Are you sure? (y/n) ")
+            if confirm == "y":
+                book = load_save.load()
+                if not book:
+                    main()
         elif choice == 9:
+            confirm = input("Are you absolutely sure? (y/n) ")
+            if confirm == "y":
+                book = load_save.clear(book)
+                main()
+        elif choice == 10:
+            os.system("cls")
             exit()
 
 main()

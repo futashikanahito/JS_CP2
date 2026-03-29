@@ -1,18 +1,19 @@
-# [6] Save, [7] Load, [8] Clear
+# [7] Save, [8] Load, [9] Clear
 import csv
-from classes import Student
+from classes import Student, GradeBook
 
-def save(students):
-    students_save = []
+#---------------------- [7] Save ----------------------
+def save(book):
+    book_save = []
 
-    for student in students:
-        students_save.append(student.save())
+    for student in book.list:
+        book_save.append(student.save())
     with open("individual projects/Simple Grade Book/catalog.csv", "w", newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow(["id", "name", "grades"])
-        csv_writer.writerows(students_save)
+        csv_writer.writerows(book_save)
     
-
+#---------------------- [8] Load ----------------------
 def load():
     with open("individual projects/Simple Grade Book/catalog.csv", "r", newline="") as file:
         csv_reader = csv.reader(file)
@@ -21,13 +22,17 @@ def load():
         for line in csv_reader:
             rows.append(line)
         
-        students = []
+        book = GradeBook()
         for line in rows:
-            students.append(Student(int(line[0]), str(line[1]), list(line[2])))
+            book.add_student(Student(str(line[1]), int(line[0]), list(line[2])))
     
-    return students
+    return book
 
-def clear():
+#---------------------- [9] Clear ----------------------
+def clear(book):
     with open("individual projects/Simple Grade Book/catalog.csv", "w", newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow(["id", "name", "grades"])
+    
+    book.list = []
+    return book
