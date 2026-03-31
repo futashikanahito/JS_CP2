@@ -1,14 +1,14 @@
 #---------------------- CLASSES ----------------------
 class GradeBook:
-    def __init__(self, list=[]):
-        self.list = list
+    def __init__(self):
+        self.list = []
 
     def add_student(self, student):
         self.list.append(student)
 
     def remove_student(self, student):
         if student in self.list:
-            self.list.pop(student)
+            self.list.remove(student)
         else:
             print("No student with that name found!")
     

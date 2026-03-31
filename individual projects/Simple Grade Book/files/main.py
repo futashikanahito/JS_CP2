@@ -1,9 +1,8 @@
 # JS, 1st, Virtual Pet Simulator 
 
 import os
-import actions
-import load_save
-from classes import Student, GradeBook
+import actions, load_save
+from classes import GradeBook
 
 #---------------------- MAIN MENU ----------------------
 def main():
@@ -34,9 +33,9 @@ Welcome to the Class Grade Book!
 ACTIONS:
 [1] Add New Student
 [2] Add Grade to Student
-[3] View Student Record (NOT FINISHED)
-[4] View All Student
-[5] Class Summary (NOT FINISHED)
+[3] View Student Record
+[4] View All Students
+[5] Class Summary
 [6] Search Students
 ---
 [7] Save (Permanent!)
@@ -59,11 +58,11 @@ Enter your choice (1-10): """)
         elif choice == 2:
             actions.add_grade(book)
         elif choice == 3:
-            actions.view_student() # NOT DONE
+            actions.view_student(book)
         elif choice == 4:
             actions.view_all(book)
         elif choice == 5:
-            actions.summary() # NOT DONE
+            actions.summary(book)
         elif choice == 6:
             actions.search(book)
         elif choice == 7:

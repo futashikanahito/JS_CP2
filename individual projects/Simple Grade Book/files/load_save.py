@@ -1,5 +1,5 @@
 # [7] Save, [8] Load, [9] Clear
-import csv
+import csv, ast
 from classes import Student, GradeBook
 
 #---------------------- [7] Save ----------------------
@@ -24,8 +24,9 @@ def load():
         
         book = GradeBook()
         for line in rows:
-            book.add_student(Student(str(line[1]), int(line[0]), list(line[2])))
-    
+            grades = ast.literal_eval(line[2]) if line[2] else []
+            book.add_student(Student(str(line[1]), str(line[0]), grades))
+        
     return book
 
 #---------------------- [9] Clear ----------------------

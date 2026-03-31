@@ -4,14 +4,19 @@ import os
 
 #---------------------- [1] Add New Student ----------------------
 def add_student(book):
-    name = input("""=====================================
+    name = input("""
+=====================================
           ADD NEW STUDENT 
 =====================================
                  
 Enter student name: """)
     stu_id = input("Enter student ID: ")
-    while isinstance(stu_id, int) and stu_id != "":
-        stu_id = input("Make sure id is an integer. Enter student ID: ")
+    while not stu_id.isdigit() or any(stu_id == p.id for p in book.list):
+        if not stu_id.isdigit():
+            stu_id = input("Make sure the ID is an integer. Enter student ID: ")
+        else:
+            stu_id = input("That ID is already taken. Enter student ID: ")
+    
     print(f"""
 Student added successfully!
     Name: {name}
@@ -38,8 +43,15 @@ Current Students: """)
     check = input("Enter student ID: ")
     for student in book.list:
         if student.id == check:
-            student = current
+            current = student
     grade = input(f"Enter grade (0 - 100): ")
+    while True:
+        try:
+            grade = float(grade)
+            if 0 <= grade <= 100:
+                break
+        except:
+            grade = input(f"That was not valid. Enter grade (0 - 100): ")
 
     current.add_grade(grade)
 
@@ -49,12 +61,41 @@ Grade added successfully!
    Current average: {current.avg} ({current.letter})
 """)
     
-    student.update()
+    current.update()
     return book
 
 #---------------------- [3] View Student Record ----------------------
-def view_student():
-    pass
+def view_student(book):
+    method = input("Search by (id/name): ").strip().lower()
+    while method != "id" and method != "name":
+        method = input("Please enter 'id' or 'name': ").strip().lower()
+
+    query = input(f"Enter {method}: ").strip()
+    found = None
+
+    for student in book.list:
+        if method == "id" and student.id == query:
+            found = student
+            break
+        elif method == "name" and query.lower() in student.name.lower():
+            found = student
+            break
+
+    if not found:
+        print(f"No student found with that {method}.")
+    else:
+        print(f"""
+=====================================
+ STUDENT RECORD
+=====================================
+ Name: {found.name}
+ ID: {found.id}
+ Average: {found.avg} ({found.letter})
+ Grades: {found.grades}
+=====================================
+""")
+
+    input("Press Enter to continue...")
 
 #---------------------- [4] View All Students ----------------------
 def view_all(book):
@@ -68,23 +109,44 @@ def view_all(book):
     input("Press Enter to continue...")
 
 #---------------------- [5] Class Summary ----------------------
-def summary():
-    pass
-"""===============================
-       CLASS STATISTICS 
+def summary(book):
+    if not book.list:
+        print("No students in the gradebook.")
+        input("Press Enter to continue...")
+        return
+
+    all_grades = []
+    for student in book.list:
+        all_grades.extend(student.grades)
+
+    avgs = [student.avg for student in book.list if student.avg is not None]
+    class_avg = round(sum(avgs) / len(avgs), 1) if avgs else 0
+
+    if class_avg >= 90: class_letter = "A"
+    elif class_avg >= 80: class_letter = "B"
+    elif class_avg >= 70: class_letter = "C"
+    elif class_avg >= 60: class_letter = "D"
+    else: class_letter = "F"
+
+    print(f"""
 ===============================
-Total Students: 5
-Class Average: 84.2 (B)
-Highest Average: 98
-Lowest Average: 67
-Highest Assignment: 100
-Lowest Assignment: 0
-==============================="""
+       CLASS STATISTICS
+===============================
+ Total Students: {len(book.list)}
+ Class Average: {class_avg} ({class_letter})
+ Highest Average: {max(avgs) if avgs else 'N/A'}
+ Lowest Average: {min(avgs) if avgs else 'N/A'}
+ Highest Assignment: {max(all_grades) if all_grades else 'N/A'}
+ Lowest Assignment: {min(all_grades) if all_grades else 'N/A'}
+===============================
+""")
+
+    input("Press Enter to continue...")
 
 #---------------------- [6] Search Students ----------------------
 def search(book):
     method = input("How would you like to search? (id/name) ")
-    if method != "id" and method != "name":
+    while method != "id" and method != "name":
         method = input("Make sure your answer is either id or name. How would you like to search? (id/name) ")
     search = input("What would you like to search? ")
     book.find_student(search, method)
