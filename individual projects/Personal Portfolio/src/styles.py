@@ -77,7 +77,7 @@ class InputBox:
 
 
 class Button:
-    def __init__(self, foreground, text, command, fg_color, border_color, text_size, text_color, sizex=1000, sizey=100):
+    def __init__(self, foreground, text, command, fg_color, border_color, hover_color, text_size, text_color, sizex=1000, sizey=100):
         self.blue_button = ctk.CTkButton(
             master=foreground,
             width=sizex,
@@ -86,6 +86,7 @@ class Button:
             corner_radius=25,
             border_color=border_color,
             fg_color=fg_color,
+            hover_color=hover_color,
             text=text,
             text_color=text_color,
             command=command,
