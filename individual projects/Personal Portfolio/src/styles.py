@@ -78,7 +78,7 @@ class InputBox:
 
 class Button:
     def __init__(self, foreground, text, command, fg_color, border_color, hover_color, text_size, text_color, sizex=1000, sizey=100):
-        self.blue_button = ctk.CTkButton(
+        self.button = ctk.CTkButton(
             master=foreground,
             width=sizex,
             height=sizey,
@@ -96,30 +96,34 @@ class Button:
         self.sizey = sizey
     
     def show(self, x, y):
-        self.blue_button.place(x=x, y=y, anchor="center")
-        self.blue_button.configure(width=self.sizex, height=self.sizey)
-        self.blue_button.propagate(False)
+        self.button.place(x=x, y=y, anchor="center")
+        self.button.configure(width=self.sizex, height=self.sizey)
+        self.button.propagate(False)
 
 
 class ExitButton:
-    def __init__(self, foreground, root):
+    def __init__(self, foreground, root, on_exit=None):
         self.foreground = foreground
         self.root = root
+        self.on_exit = on_exit
     
     def show(self, border_color, inner_color, bg_color, x=2250, y=150):
         canvas = ctk.CTkCanvas(self.foreground, width=150, height=150, bg=bg_color, highlightthickness=0)
         
         def on_click(event):
-            self.root.destroy()
-            os.system("cls")
+            if self.on_exit:
+                self.on_exit()
+            else:
+                self.root.destroy()
+                os.system("cls")
 
         canvas.place(x=x, y=y, anchor="center")
 
         border_width = 50
         inner_width = 30
         
-        line1_coords = (125, 125, 25, 25) 
-        line2_coords = (25, 125, 125, 25) 
+        line1_coords = (125, 125, 25, 25)
+        line2_coords = (25, 125, 125, 25)
 
         canvas.create_line(*line1_coords, fill=border_color, width=border_width, capstyle="round")
         canvas.create_line(*line2_coords, fill=border_color, width=border_width, capstyle="round")
@@ -131,12 +135,14 @@ class ExitButton:
 
 
 class OutputText:
-    def __init__(self, titleframe, text, text_color, text_size=100):
+    def __init__(self, titleframe, text, text_color, text_size=100, justify="center"):
         self.text = ctk.CTkLabel(
             master=titleframe,
             text=text,
             font=("Dongle", text_size),
-            text_color=text_color
+            text_color=text_color,
+            justify=justify,
+            anchor="w",
         )
 
     def show(self):
@@ -147,7 +153,7 @@ class NewFrame:
     def __init__(self, foreground, fg_color, border_color, sizex, sizey):
         self.frame = ctk.CTkFrame(
             master=foreground,
-            border_width=5,
+            border_width=10,
             corner_radius=15,
             border_color=border_color,
             fg_color=fg_color
